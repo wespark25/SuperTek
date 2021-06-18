@@ -1,2 +1,0 @@
-# SuperTek
-Project for SuperTek
