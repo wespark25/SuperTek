@@ -1,6 +1,6 @@
 package main;
 
-public class QATester extends Employee{
+public class QATester extends Employee {
 
     public QATester(String name, Manager manager) {
         this.setName(name);

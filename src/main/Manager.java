@@ -4,13 +4,6 @@ import java.util.ArrayList;
 
 public class Manager extends Employee {
 
-    //I made three separate ArrayLists of subordinates based on employee type because the cost of each employee is
-    //static. This way when I am totaling the cost of a manager's subordinates I only
-    //have to calculate the total number of QATesters and Developers they have. I built this assuming that a manager of
-    //a team of developers/QATesters might also still be the manager of another manager and didn't necessarily have to be the
-    //bottom end of the chain of managers.
-
-    //TODO is it still worth splitting these into three?
     private ArrayList<Manager> subManagers = new ArrayList<>();
     private ArrayList<QATester> subQATesters = new ArrayList<>();
     private ArrayList<Developer> subDevelopers = new ArrayList<>();
@@ -23,7 +16,9 @@ public class Manager extends Employee {
         this.subManagers = subManagers;
     }
 
-    public void addSubManager(Manager manager) { subManagers.add(manager) ; }
+    public void addSubManager(Manager manager) {
+        subManagers.add(manager);
+    }
 
     public ArrayList<QATester> getSubQATesters() {
         return subQATesters;
@@ -49,36 +44,30 @@ public class Manager extends Employee {
         this.subDevelopers.add(developer);
     }
 
+    //When you create a Manager they must either report to another manager or they must be listed as a head of a department
+
     public Manager(String name, Manager manager) {
         this.setName(name);
         this.setParent(manager);
         manager.addSubManager(this);
     }
 
-    //For creating a the head of a department
     public Manager(String name, Department department) {
         this.setName(name);
         department.addManager(this);
     }
 
-    public Manager(String name) {
-        this.setName(name);
-    }
-
-    //TODO rename this to be inclusive of manager. Just find correct term.
     //Method for calculating the cost of any manager's team. This includes the cost of the root manager.
-    public Integer costOfSubordinates() {
+    public Integer costOfTeam() {
         int total = (subDevelopers.size() * 2000) + (subQATesters.size() * 1000) + 600;
         for (Manager manager :
                 subManagers) {
-            total += manager.costOfSubordinates();
+            total += manager.costOfTeam();
         }
         return total;
     }
 
-    //TODO rename
-    //TODO explain why you chose do all these Recursive methods instead of Caching
-    //Instead of this I could have a separate class of managers.
+    //Method for finding any managers at this level or under that don't have any subordinates.
     public ArrayList<Manager> managersWithNoSubordinates() {
         ArrayList<Manager> managers = new ArrayList<Manager>();
         if (this.subManagers.size() == 0 && this.subQATesters.size() == 0 && this.subDevelopers.size() == 0) {
@@ -87,7 +76,6 @@ public class Manager extends Employee {
         } else if (this.subManagers.size() != 0) {
             for (Manager manager :
                     subManagers) {
-                //TODO what if this function provides an empty list?
                 managers.addAll(manager.managersWithNoSubordinates());
             }
         }
