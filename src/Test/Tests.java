@@ -1,5 +1,9 @@
-package main;
+package Test;
 
+import main.Department;
+import main.Developer;
+import main.Manager;
+import main.QATester;
 import org.junit.Test;
 
 import java.util.*;
@@ -46,8 +50,7 @@ public class Tests {
     @Test
     public void checkDepartmentForManagersWithNoSubordinates() {
         List<Manager> managerList = Arrays.asList(sam, john, anna, louis, don, frank);
-        ArrayList<Manager> expectedResult = new ArrayList<Manager>();
-        expectedResult.addAll(managerList);
+        ArrayList<Manager> expectedResult = new ArrayList<>(managerList);
         ArrayList<Manager> desiredResult = superTek.managersWithNoSubordinates();
 
         assertTrue(desiredResult.containsAll(expectedResult));
@@ -56,8 +59,7 @@ public class Tests {
     @Test
     public void checkManagerForOtherManagersWithNoSubordinates() {
         List<Manager> managerList = Arrays.asList(john, louis);
-        ArrayList<Manager> expectedResult = new ArrayList<Manager>();
-        expectedResult.addAll(managerList);
+        ArrayList<Manager> expectedResult = new ArrayList<>(managerList);
         ArrayList<Manager> desiredResult = susan.managersWithNoSubordinates();
 
         assertTrue(desiredResult.containsAll(expectedResult));
